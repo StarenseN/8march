@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <title>8 Марта — Дарина ♡</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400&display=swap');
+
+        :root {
+            --sunlight: #FFFDF0;
+            --mimosa: #FFD700;
+            --leaf: #90BE6D;
+            --charcoal: #4D4D4D;
+            --petal: #FFB4A2;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--sunlight);
+            color: var(--charcoal);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        /* --- Sections --- */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            position: relative;
+            text-align: center;
+        }
+
+        .hero {
+            background: radial-gradient(circle at center, #FFFFFF 0%, var(--sunlight) 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 7rem);
+            line-height: 1;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1.5s forwards;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            letter-spacing: 0.3em;
+            color: var(--mimosa);
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeIn 1.5s 0.5s forwards;
+        }
+
+        /* --- Story Scenes --- */
+        .scene {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .scene.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .image-container {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 4/5;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+            background: #EEE;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(20%) brightness(105%);
+            transition: transform 2s ease;
+        }
+
+        .scene:hover img {
+            transform: scale(1.05);
+        }
+
+        .text-content {
+            max-width: 500px;
+        }
+
+        .text-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--leaf);
+        }
+
+        .text-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        /* --- Decorations --- */
+        .sun-ray {
+            position: absolute;
+            top: 0; left: 50%;
+            width: 2px; height: 100vh;
+            background: linear-gradient(to bottom, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: translateX(-50%) rotate(45deg);
+            pointer-events: none;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            padding: 6rem 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--mimosa);
+            letter-spacing: 0.1em;
+        }
+
+        /* --- Mobile Optimization --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 4rem; }
+            .image-container { aspect-ratio: 3/4; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="sun-ray"></div>
+        <p>8 Марта 2026</p>
+        <h1>Дарина</h1>
+        <div style="margin-top: 2rem; font-style: italic; opacity: 0.7;">Листай вверх, как растет весна...</div>
+    </section>
+
+    <div id="app"></div>
+
+    <footer>
+        С любовью, Матье ♡ 2026
+    </footer>
+
+    <script>
+        const scenes = [
+            {
+                title: "Сила",
+                text: "Твоя внутренняя сила вдохновляет меня каждый день. Ты — воплощение стойкости и грации.",
+                img: "assets/photo_2025-10-12_08-59-22.webp"
+            },
+            {
+                title: "Улыбка",
+                text: "Твоя улыбка — это солнце, которое согревает мою душу даже через тысячи километров.",
+                img: "assets/photo_2025-10-19_09-38-15.webp"
+            },
+            {
+                title: "Мужество",
+                text: "Твое мужество жить, любить и созидать делает тебя исключительной женщиной.",
+                img: "assets/photo_2025-12-25_00-41-41.webp"
+            },
+            {
+                title: "Красота",
+                text: "Твоя красота не знает границ, потому что она рождается в твоем добром сердце.",
+                img: "assets/photo_2026-02-13_10-21-07.webp"
+            },
+            {
+                title: "Восхищение",
+                text: "Я бесконечно уважаю и восхищаюсь той женщиной, которой ты являешься. С твоим днем!",
+                img: "assets/photo_2026-02-14_14-27-42.webp"
+            }
+        ];
+
+        const container = document.getElementById('app');
+
+        scenes.forEach(s => {
+            const sceneEl = document.createElement('section');
+            sceneEl.className = 'scene';
+            sceneEl.innerHTML = `
+                <div class="image-container">
+                    <img src="${s.img}" alt="${s.title}" loading="lazy">
+                </div>
+                <div class="text-content">
+                    <h2>${s.title}</h2>
+                    <p>${s.text}</p>
+                </div>
+            `;
+            container.appendChild(sceneEl);
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.scene').forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>
