@@ -4,219 +4,234 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow, noarchive">
-    <title>8 Марта — Дарина ♡</title>
+    <title>Дарина — Погружение ♡</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Montserrat:wght@200;300&display=swap');
 
         :root {
-            --sunlight: #FFFDF0;
-            --mimosa: #FFD700;
-            --leaf: #90BE6D;
-            --charcoal: #4D4D4D;
-            --petal: #FFB4A2;
+            --bg: #0a0a0f;
+            --gold: #c9a96e;
+            --rose: #e5989b;
+            --cream: #fdf8f4;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: var(--sunlight);
-            color: var(--charcoal);
+            background-color: var(--bg);
+            color: var(--cream);
             font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            overflow: hidden; /* No scrollbar */
+            height: 100vh;
+            width: 100vw;
+            perspective: 1000px;
         }
 
-        h1, h2 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 400;
-            font-style: italic;
+        /* --- 3D Scene --- */
+        #scene {
+            position: absolute;
+            inset: 0;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            will-change: transform;
         }
 
-        /* --- Sections --- */
-        section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 4rem 2rem;
-            position: relative;
+        .layer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80vw;
+            max-width: 600px;
+            transform: translate3d(-50%, -50%, var(--z));
+            transform-style: preserve-3d;
             text-align: center;
-        }
-
-        .hero {
-            background: radial-gradient(circle at center, #FFFFFF 0%, var(--sunlight) 100%);
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 12vw, 7rem);
-            line-height: 1;
-            margin-bottom: 1rem;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1.5s forwards;
+            pointer-events: none;
+            transition: opacity 0.5s;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            letter-spacing: 0.3em;
-            color: var(--mimosa);
-            text-transform: uppercase;
-            opacity: 0;
-            animation: fadeIn 1.5s 0.5s forwards;
-        }
-
-        /* --- Story Scenes --- */
-        .scene {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        .scene.reveal {
+        .layer.active {
             opacity: 1;
-            transform: translateY(0);
+            pointer-events: auto;
         }
 
-        .image-container {
+        /* --- Elements --- */
+        .photo-frame {
             width: 100%;
-            max-width: 800px;
             aspect-ratio: 4/5;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px;
+            box-shadow: 0 30px 100px rgba(0,0,0,0.5);
             margin-bottom: 2rem;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.05);
-            background: #EEE;
+            position: relative;
         }
 
-        .image-container img {
+        .photo-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: sepia(20%) brightness(105%);
-            transition: transform 2s ease;
+            filter: sepia(10%) brightness(90%);
         }
 
-        .scene:hover img {
-            transform: scale(1.05);
-        }
-
-        .text-content {
-            max-width: 500px;
-        }
-
-        .text-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--leaf);
-        }
-
-        .text-content p {
-            font-size: 1.2rem;
-            line-height: 1.8;
+        .text-overlay {
+            font-family: 'Playfair Display', serif;
             font-style: italic;
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            line-height: 1.4;
+            color: var(--rose);
+            text-shadow: 0 0 20px rgba(229, 152, 155, 0.5);
         }
 
-        /* --- Decorations --- */
-        .sun-ray {
-            position: absolute;
-            top: 0; left: 50%;
-            width: 2px; height: 100vh;
-            background: linear-gradient(to bottom, transparent, rgba(255, 215, 0, 0.1), transparent);
-            transform: translateX(-50%) rotate(45deg);
+        /* --- HUD --- */
+        .ui {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            text-align: center;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.5;
             pointer-events: none;
         }
 
-        /* --- Animations --- */
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
+        .ui .arrow {
+            display: block;
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+            animation: pulse 2s infinite;
         }
 
-        footer {
-            padding: 6rem 2rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--mimosa);
-            letter-spacing: 0.1em;
+        @keyframes pulse {
+            0%, 100% { transform: translateY(0); opacity: 0.3; }
+            50% { transform: translateY(5px); opacity: 1; }
         }
 
-        /* --- Mobile Optimization --- */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 4rem; }
-            .image-container { aspect-ratio: 3/4; }
+        /* --- Dust/Stars --- */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
         }
+
     </style>
 </head>
 <body>
 
-    <section class="hero">
-        <div class="sun-ray"></div>
-        <p>8 Марта 2026</p>
-        <h1>Дарина</h1>
-        <div style="margin-top: 2rem; font-style: italic; opacity: 0.7;">Листай вверх, как растет весна...</div>
-    </section>
+    <div id="scene">
+        <!-- Intro -->
+        <div class="layer active" style="--z: 0">
+            <h1 style="font-family: 'Playfair Display', serif; font-weight: 400; font-size: 4rem; color: var(--gold);">Дарина</h1>
+            <p style="margin-top: 1rem; letter-spacing: 0.2em; opacity: 0.7;">8 МАРТА 2026</p>
+            <div style="margin-top: 4rem; font-style: italic; font-size: 1.2rem;">Погрузись в нашу вселенную...</div>
+        </div>
+    </div>
 
-    <div id="app"></div>
-
-    <footer>
-        С любовью, Матье ♡ 2026
-    </footer>
+    <div class="ui">
+        Используй колесико или свайп
+        <span class="arrow">↓</span>
+    </div>
 
     <script>
-        const scenes = [
-            {
-                title: "Сила",
-                text: "Твоя внутренняя сила вдохновляет меня каждый день. Ты — воплощение стойкости и грации.",
-                img: "assets/photo_2025-10-12_08-59-22.webp"
-            },
-            {
-                title: "Улыбка",
-                text: "Твоя улыбка — это солнце, которое согревает мою душу даже через тысячи километров.",
-                img: "assets/photo_2025-10-19_09-38-15.webp"
-            },
-            {
-                title: "Мужество",
-                text: "Твое мужество жить, любить и созидать делает тебя исключительной женщиной.",
-                img: "assets/photo_2025-12-25_00-41-41.webp"
-            },
-            {
-                title: "Красота",
-                text: "Твоя красота не знает границ, потому что она рождается в твоем добром сердце.",
-                img: "assets/photo_2026-02-13_10-21-07.webp"
-            },
-            {
-                title: "Восхищение",
-                text: "Я бесконечно уважаю и восхищаюсь той женщиной, которой ты являешься. С твоим днем!",
-                img: "assets/photo_2026-02-14_14-27-42.webp"
-            }
+        const photos = [
+            { src: "assets/photo_2025-10-12_08-59-22.webp", text: "Твоя сила" },
+            { src: "assets/photo_2025-10-19_09-38-15.webp", text: "Твой свет" },
+            { src: "assets/photo_2025-12-25_00-41-41.webp", text: "Твое мужество" },
+            { src: "assets/photo_2026-02-13_10-21-07.webp", text: "Твоя красота" },
+            { src: "assets/photo_2026-02-14_14-27-42.webp", text: "Мое восхищение" }
         ];
 
-        const container = document.getElementById('app');
+        const scene = document.getElementById('scene');
+        const layers = [];
+        
+        // Add layers with deep Z positioning
+        photos.forEach((p, i) => {
+            const layer = document.createElement('div');
+            layer.className = 'layer';
+            const z = -1500 * (i + 1);
+            layer.style.setProperty('--z', `${z}px`);
+            
+            // Random jitter for organic feel
+            const x = (Math.random() - 0.5) * 40;
+            const y = (Math.random() - 0.5) * 40;
+            layer.style.left = `calc(50% + ${x}vw)`;
+            layer.style.top = `calc(50% + ${y}vh)`;
 
-        scenes.forEach(s => {
-            const sceneEl = document.createElement('section');
-            sceneEl.className = 'scene';
-            sceneEl.innerHTML = `
-                <div class="image-container">
-                    <img src="${s.img}" alt="${s.title}" loading="lazy">
+            layer.innerHTML = `
+                <div class="photo-frame">
+                    <img src="${p.src}" alt="">
                 </div>
-                <div class="text-content">
-                    <h2>${s.title}</h2>
-                    <p>${s.text}</p>
-                </div>
+                <div class="text-overlay">${p.text}</div>
             `;
-            container.appendChild(sceneEl);
+            scene.appendChild(layer);
+            layers.push({ el: layer, z: z });
         });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('reveal');
+        // Add stars for depth perception
+        for(let i=0; i<200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const sz = Math.random() * -10000;
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.transform = `translateZ(${sz}px)`;
+            scene.appendChild(star);
+        }
+
+        let currentZ = 0;
+        let targetZ = 0;
+
+        // Interaction
+        window.addEventListener('wheel', (e) => {
+            targetZ += e.deltaY * 2;
+            if (targetZ < 0) targetZ = 0;
+            const maxZ = 1500 * (photos.length + 1);
+            if (targetZ > maxZ) targetZ = maxZ;
+        });
+
+        // Touch support
+        let touchStartY = 0;
+        window.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY);
+        window.addEventListener('touchmove', e => {
+            const delta = touchStartY - e.touches[0].clientY;
+            targetZ += delta * 5;
+            touchStartY = e.touches[0].clientY;
+            if (targetZ < 0) targetZ = 0;
+            const maxZ = 1500 * (photos.length + 1);
+            if (targetZ > maxZ) targetZ = maxZ;
+        });
+
+        // Animation Loop
+        function animate() {
+            currentZ += (targetZ - currentZ) * 0.1;
+            scene.style.transform = `translateZ(${currentZ}px)`;
+
+            // Fade layers based on proximity
+            const allLayers = document.querySelectorAll('.layer');
+            allLayers.forEach(l => {
+                const layerZ = parseInt(l.style.getPropertyValue('--z'));
+                const distance = Math.abs(layerZ + currentZ);
+                
+                if (distance < 1000) {
+                    l.classList.add('active');
+                    l.style.opacity = 1 - (distance / 1000);
+                } else {
+                    l.classList.remove('active');
+                    l.style.opacity = 0;
                 }
             });
-        }, { threshold: 0.2 });
 
-        document.querySelectorAll('.scene').forEach(s => observer.observe(s));
+            requestAnimationFrame(animate);
+        }
+        animate();
+
     </script>
 </body>
 </html>
